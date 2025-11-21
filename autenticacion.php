@@ -1,6 +1,6 @@
 <?php
-    if (isset($_POST['usuario'])) {
-        session_start();
+    session_start();
+    if (isset($_POST['usuario'])) {   
         $conexion = mysqli_connect("localhost","root","","clouddb");
         $query = "select usuario, contraseña from usuarios where usuario = ?;";
     
@@ -30,7 +30,7 @@
             header("Location: form.php?error=1");
             exit();
         }
- 
+
         $usuarioreal = $registro["usuario"];
         $passwordreal = $registro["contraseña"];
     
@@ -40,9 +40,9 @@
     
             if (isset($_POST["recordar"])){
                 $token = bin2hex(random_bytes(16));
-                $query = "update usuarios set token = ?";
+                $query = "update usuarios set token = ? where usario = ?";
     
-                $conexion->execute_query($query, [$token]);
+                $conexion->execute_query($query, [$token, $usuario]);
     
                 setcookie("token", $token, time()+60*3); //Funciona como nuestra contraseña sin exponer la real
                 setcookie("usuario", $usuario, time()+60*3);
