@@ -1,3 +1,29 @@
+<?php
+  session_start();
+  $conexion = mysqli_connect("localhost","root","","clouddb");
+  $query = "select usuario, token from usuarios where usuario = ?;";
+  
+  if((isset($_COOKIE["usuario"])) && (isset($_COOKIE["token"]))){
+    $resultadoquery = $conexion->execute_query($query, [$_COOKIE["usuario"]]);
+    $registro = mysqli_fetch_array($resultadoquery);
+
+    $usuarioreal = $registro["usuario"];
+    $tokenreal = $registro["token"];
+    if (($_COOKIE["usuario"] == $usuarioreal) && ($_COOKIE["token"] == $tokenreal)) {
+        header("Location: blog_inicio.php");
+        exit();
+    }
+    else{
+      // Eliminar cookies corruptas o inválidas
+      setcookie("usuario", "", time() - 3600, "/");
+      setcookie("token", "", time() - 3600, "/");
+      
+      header("Location: form.php?error=2");
+      exit();
+    }
+  }
+?>
+
 <html lang="es">
 <head>
   <meta charset="UTF-8">
@@ -12,11 +38,19 @@
 </head>
 <body>
 
-  <?php if (isset($_GET['error']) && $_GET['error'] == 1): ?>
-    <div class="error-message" id="errorBox">
-      Usuario o contraseña incorrectos
-    </div>
-  <?php endif; ?>
+  <?php // Errores atrapados de redirecciones
+    if (isset($_GET['error']) && $_GET['error'] == 1): 
+    echo '<div class="error-message" id="errorBox"> Usuario o contraseña incorrectos </div>';
+    endif; 
+    
+    if (isset($_GET['error']) && $_GET['error'] == 2): 
+    echo '<div class="error-message" id="errorBox"> Error usando las cookies </div>';
+    endif;
+
+    if (isset($_GET['error']) && $_GET['error'] == 3): 
+    echo '<div class="error-message" id="errorBox"> Qué haces intentando entrar ahí sin permiso? </div>';
+    endif;
+  ?>
 
   <div class="background">
     <div class="lines"></div>
@@ -47,14 +81,13 @@
     </form>
   </div>
   <script>
-    // Mostrar animación del mensaje de error
+    // Animación del mensaje de error
     const errorBox = document.getElementById('errorBox');
     if (errorBox) {
       setTimeout(() => {
         errorBox.classList.add('show');
-      }, 100); // pequeña demora para animación
+      }, 100);
 
-      // Ocultar automáticamente después de 3.5 segundos
       setTimeout(() => {
         errorBox.classList.remove('show');
       }, 3500);
