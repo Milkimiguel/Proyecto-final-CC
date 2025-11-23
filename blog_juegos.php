@@ -13,6 +13,8 @@
     <title>Juegos - Blog</title>
     <!-- Fuente Comfortaa -->
     <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;600&display=swap" rel="stylesheet">
+    <!-- Iconos para las etiquetas -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
     <!-- Enlace al CSS -->
     <link rel="stylesheet" href="styles\style.css">
@@ -24,28 +26,60 @@
 </div>
 
 <div class="container">
-    <div class="glass-form" style="width: 600px; text-align:left;">
-        <h2>Lista de Juegos</h2>
+    <h2>Lista de Juegos</h2>
 
-        <?php
-        // Aquí irían juegos desde BD. Ejemplo visual:
-        $juegos = [
-            ["titulo" => "Aventura Cósmica", "desc" => "Explora un universo infinito."],
-            ["titulo" => "Rally Turbo", "desc" => "Carreras intensas en pistas extremas."],
-            ["titulo" => "Dungeon Quest", "desc" => "Derrota monstruos y consigue tesoros."]
+    <?php
+    $conexion = mysqli_connect("localhost","root","","clouddb");
+
+    $query = "SELECT titulo, descripcion, horas_juego, genero, imagen FROM juegos";
+    $resultadoquery = mysqli_query($conexion, $query);
+
+    $juegos = [];
+
+    while ($registro = mysqli_fetch_assoc($resultadoquery)) {
+        $juego = [
+            'titulo' => $registro["titulo"],
+            'descripcion' => $registro["descripcion"],
+            'horas_juego' => $registro["horas_juego"],
+            'genero' => $registro["genero"],
+            'imagen' => $registro["imagen"]
         ];
+        array_push($juegos, $juego);
+    }
 
-        foreach ($juegos as $juego) {
-            echo "
-                <div style='background: rgba(255,255,255,0.10); padding:15px; margin:15px 0; border-radius:12px;'>
-                    <h3>{$juego['titulo']}</h3>
-                    <p>{$juego['desc']}</p>
+    // Mostrar cada juego en su propio contenedor glass
+    foreach ($juegos as $juego) {
+        echo "
+        <div class='game-container'>
+            <div class='glass-form'>
+                <div class='game-card'>
+                    <div class='game-image'>
+                        <img src='{$juego['imagen']}' alt='{$juego['titulo']}'>
+                    </div>
+                    <div class='game-content'>
+                        <h3 class='game-title'>{$juego['titulo']}</h3>
+                        <div class='game-details'>
+                            <span class='game-tag hours'>
+                                <i class='fas fa-clock'></i>
+                                {$juego['horas_juego']} horas
+                            </span>
+                            <span class='game-tag genre'>
+                                <i class='fas fa-tag'></i>
+                                {$juego['genero']}
+                            </span>
+                        </div>
+                        <p class='game-description'>{$juego['descripcion']}</p>
+                    </div>
                 </div>
-            ";
-        }
-        ?>
+            </div>
+        </div>
+        ";
+    }
+    
+    mysqli_close($conexion);
+    ?> 
 
-        <br>
+    <div class="button-container">
         <a href="blog_inicio.php"><button>Volver</button></a>
     </div>
 </div>
