@@ -5,59 +5,89 @@ if (!isset($_SESSION["log"])) {
     exit();
 }
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $conexion = mysqli_connect("localhost", "root", "", "clouddb");
+// Asegurarnos de que tenemos el usuario en sesión
+$autor_actual = isset($_SESSION['user']) ? $_SESSION['user'] : 'Anónimo';
 
-    $titulo = mysqli_real_escape_string($conexion, $_POST['titulo']);
-    $descripcion = mysqli_real_escape_string($conexion, $_POST['descripcion']);
-    $horas_juego = mysqli_real_escape_string($conexion, $_POST['horas_juego']);
-    $genero = mysqli_real_escape_string($conexion, $_POST['genero']);
-    
-    // Procesar la imagen
-    $imagen_path = "";
-    if (isset($_FILES['imagen']) && $_FILES['imagen']['error'] === UPLOAD_ERR_OK) {
-        $file = $_FILES['imagen'];
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Reporte de errores interno (no mostrar al usuario)
+    mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
+
+    try {
+        $conexion = new mysqli("localhost", "root", "", "clouddb");
+        $conexion->set_charset("utf8mb4");
+
+        // 1. SANITIZACIÓN DE TEXTO (Anti-XSS en entrada)
+        // strip_tags evita que metan HTML. Si quieres permitir negritas, usa strip_tags($var, '<b>')
+        $titulo = trim(strip_tags($_POST['titulo']));
+        $descripcion = trim(strip_tags($_POST['descripcion']));
+        // filter_var asegura que sea un número entero
+        $horas_juego = filter_var($_POST['horas_juego'], FILTER_SANITIZE_NUMBER_INT);
+        $genero = trim(strip_tags($_POST['genero']));
         
-        // Verificar que sea archivo .webp
-        $file_extension = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
-        if ($file_extension !== 'webp') {
-            $error = "Solo se permiten archivos .webp";
-        } else {
-            // Crear directorio images si no existe
-            $upload_dir = "images/";
-            if (!is_dir($upload_dir)) {
-                mkdir($upload_dir, 0755, true);
-            }
-            
-            // Generar nombre único para la imagen
-            $image_name = uniqid() . '_' . basename($file['name']);
-            $target_path = $upload_dir . $image_name;
-            
-            // Mover el archivo
-            if (move_uploaded_file($file['tmp_name'], $target_path)) {
-                $imagen_path = "./" . $target_path;
-            } else {
-                $error = "Error al subir la imagen";
-            }
+        // Autor desde sesión (ya es seguro porque viene del servidor)
+        $autor_actual = $_SESSION['user'];
+
+        // 2. PROCESAMIENTO SEGURO DE IMAGEN
+        $imagen_path = "";
+        
+        if (!isset($_FILES['imagen']) || $_FILES['imagen']['error'] !== UPLOAD_ERR_OK) {
+            throw new Exception("Error en la subida o no se seleccionó imagen.");
         }
-    }
-    
-    // Si no hay error, insertar en la base de datos
-    if (!isset($error) && !empty($imagen_path)) {
-        $stmt = $conexion->prepare("INSERT INTO juegos (titulo, descripcion, horas_juego, genero, imagen) VALUES (?, ?, ?, ?, ?)");
-        $stmt->bind_param("sssss", $titulo, $descripcion, $horas_juego, $genero, $imagen_path);
+
+        $file = $_FILES['imagen'];
+
+        // VALIDACIÓN A: Tamaño máximo (Ej: 2MB)
+        if ($file['size'] > 2 * 1024 * 1024) {
+            throw new Exception("La imagen es muy pesada (Máx 2MB).");
+        }
+
+        // VALIDACIÓN B: Verificar que sea realmente una imagen (Magic Bytes)
+        $finfo = new finfo(FILEINFO_MIME_TYPE);
+        $mime_type = $finfo->file($file['tmp_name']);
+        
+        // Lista blanca estricta de tipos permitidos
+        $allowed_mimes = ['image/webp', 'image/jpeg', 'image/png'];
+        
+        if (!in_array($mime_type, $allowed_mimes)) {
+            throw new Exception("Archivo inválido. Detectado: $mime_type");
+        }
+
+        // VALIDACIÓN C: Renombrado aleatorio (Destruye nombres maliciosos)
+        // Forzamos la extensión .webp aunque suban otra cosa (si tu lógica lo requiere)
+        // Ojo: Si permites jpg/png, usa la extensión real del mime type.
+        $ext = '.webp'; 
+        if($mime_type == 'image/jpeg') $ext = '.jpg';
+        if($mime_type == 'image/png') $ext = '.png';
+
+        $upload_dir = "images/";
+        if (!is_dir($upload_dir)) mkdir($upload_dir, 0755, true);
+
+        // Nombre único criptográfico
+        $image_name = bin2hex(random_bytes(16)) . $ext;
+        $target_path = $upload_dir . $image_name;
+
+        // Mover archivo
+        if (!move_uploaded_file($file['tmp_name'], $target_path)) {
+            throw new Exception("Fallo al guardar el archivo.");
+        }
+        
+        $imagen_path = "./" . $target_path;
+
+        // 3. INSERCIÓN SEGURA (Prepared Statements - Anti-SQLi)
+        $stmt = $conexion->prepare("INSERT INTO juegos (titulo, descripcion, horas_juego, genero, imagen, autor) VALUES (?, ?, ?, ?, ?, ?)");
+        $stmt->bind_param("ssisss", $titulo, $descripcion, $horas_juego, $genero, $imagen_path, $autor_actual);
         
         if ($stmt->execute()) {
-            $success = "¡Juego agregado correctamente!";
-            // Limpiar los campos del formulario
-            $titulo = $descripcion = $horas_juego = $genero = "";
-        } else {
-            $error = "Error al guardar en la base de datos: " . $stmt->error;
+            $success = "Juego agregado con éxito.";
         }
+        
         $stmt->close();
+        $conexion->close();
+
+    } catch (Exception $e) {
+        // En producción usa error_log y muestra mensaje genérico
+        $error = "Error de seguridad o datos: " . $e->getMessage();
     }
-    
-    mysqli_close($conexion);
 }
 ?>
 

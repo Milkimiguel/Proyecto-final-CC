@@ -16,34 +16,6 @@
 
     <!-- Enlace al CSS -->
     <link rel="stylesheet" href="styles\style.css">
-
-    <style>
-        /* Botón de cerrar sesión estilo glass */
-        .logout-btn {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-
-            background: rgba(255, 255, 255, 0.10);
-            border: 1px solid rgba(255, 255, 255, 0.25);
-            padding: 10px 16px;
-            border-radius: 12px;
-            cursor: pointer;
-
-            color: #fff;
-            font-weight: bold;
-            font-size: 0.9em;
-
-            backdrop-filter: blur(10px);
-            transition: 0.25s ease;
-        }
-
-        .logout-btn:hover {
-            background: rgba(255, 80, 80, 0.25);
-            border-color: rgba(255, 80, 80, 0.5);
-            box-shadow: 0 0 10px rgba(255, 50, 50, 0.4);
-        }
-    </style>
 </head>
 
 <body>
@@ -52,33 +24,50 @@
     <div class="lines"></div>
 </div>
 
-<!-- BOTÓN CERRAR SESIÓN -->
-<a href="cerrarsesion.php">
-    <div class="logout-btn">Cerrar Sesión</div>
-</a>
+<!-- ===== ENCABEZADO ===== -->
+<header class="main-header">
+    <h2 class="logo">Blog Gamer</h2>
 
-<div class="container">
-    <div class="glass-form" style="width: 450px;">
-        <h2>Bienvenido al Blog de Videojuegos</h2>
-        <p>Explora juegos, sube nuevos proyectos y descarga contenido exclusivo.</p>
+    <nav class="header-nav">
+        <a href="blog_juegos.php">Juegos</a>
+        <a href="blog_agregarJuego.php">Agregar</a>
+        <a href="blog_descargas.php">Descargas</a>
+    </nav>
 
-        <br><br>
+    <a href="cerrarsesion.php" class="logout-btn-header">Cerrar Sesión</a>
+</header>
 
-        <a href="blog_juegos.php">
-            <button>Ver Juegos</button>
+<!-- ===== CONTENIDO DEL CENTRO ===== -->
+<main class="dashboard">
+
+    <h1 class="dashboard-title">Panel Principal</h1>
+
+    <div class="cards-grid">
+
+        <a href="blog_juegos.php" class="card">
+            <h3>🕹️ Ver Juegos</h3>
+            <p>Consulta y gestiona todos los videojuegos de la base.</p>
         </a>
-        <br><br>
 
-        <a href="blog_agregarJuego.php">
-            <button>Agregar Juego</button>
+        <a href="blog_agregarJuego.php" class="card">
+            <h3>➕ Agregar Juego</h3>
+            <p>Sube un nuevo título y agrégalo al catálogo.</p>
         </a>
-        <br><br>
 
-        <a href="blog_descargas.php">
-            <button>Descargas</button>
+        <a href="blog_descargas.php" class="card">
+            <h3>📓 Descargas</h3>
+            <p>Contenido descargable, recursos y archivos del blog.</p>
         </a>
     </div>
-</div>
+</main>
+
+
+
+<!-- ===== PIE DE PÁGINA ===== -->
+<footer class="main-footer">
+    <p>© 2025 Blog Gamer – Proyecto de Cloud Computing</p>
+</footer>
 
 </body>
+
 </html>

@@ -22,6 +22,18 @@
 <div class="background">
     <div class="lines"></div>
 </div>
+<!-- ===== ENCABEZADO ===== -->
+<header class="main-header">
+    <h2 class="logo">Blog Gamer</h2>
+
+    <nav class="header-nav">
+        <a href="blog_juegos.php">Juegos</a>
+        <a href="blog_agregarJuego.php">Agregar</a>
+        <a href="blog_descargas.php">Descargas</a>
+    </nav>
+
+    <a href="cerrarsesion.php" class="logout-btn-header">Cerrar Sesión</a>
+</header>
 
 <div class="container">
     <div class="glass-form" style="width: 600px; text-align:left;">

@@ -482,3 +482,240 @@ button:hover {
     padding: 10px 14px;
   }
 }
+
+/* Metadatos (Autor y Fecha) */
+.meta-info {
+    font-size: 0.85em;
+    color: #aaa;
+    margin-bottom: 10px;
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+.meta-info i { color: #00c3ff; margin-right: 5px; }
+
+/* Sección de Comentarios */
+.comments-section {
+    margin-top: 25px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.comments-section h4 {
+    font-size: 1.1em;
+    margin-bottom: 15px;
+    color: #e0e0e0;
+}
+
+/* Lista de comentarios */
+.comment-box {
+    max-height: 200px; /* Si hay muchos, hace scroll */
+    overflow-y: auto;
+    margin-bottom: 15px;
+    padding-right: 5px;
+}
+
+/* Estilo de la scrollbar pequeña para comentarios */
+.comment-box::-webkit-scrollbar { width: 5px; }
+.comment-box::-webkit-scrollbar-thumb { background: #555; border-radius: 5px; }
+
+.single-comment {
+    background: rgba(0, 0, 0, 0.2);
+    padding: 10px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    border-left: 2px solid #00c3ff;
+}
+
+.comment-header {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.8em;
+    color: #00c3ff;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.comment-date { color: #888; font-weight: normal; }
+.comment-body { font-size: 0.9em; color: #ddd; margin: 0; }
+
+/* Formulario pequeño de comentarios */
+.comment-form { display: flex; gap: 10px; margin-top: 10px; }
+.comment-input {
+    flex: 1;
+    padding: 8px 12px;
+    border-radius: 20px;
+    border: 1px solid rgba(255,255,255,0.2);
+    background: rgba(255,255,255,0.05);
+    color: white;
+    font-family: inherit;
+}
+.btn-comment {
+    padding: 8px 15px;
+    border-radius: 20px;
+    border: none;
+    background: #00c3ff;
+    color: #000;
+    font-weight: bold;
+    cursor: pointer;
+}
+.btn-comment:hover { background: #00a3dd; }
+
+.flex-container {
+  display: flex;
+  width: 60%;
+  /* Otras propiedades para alinear y distribuir los flex items */
+  justify-content: space-between;
+  align-items: center;
+  margin: 0 auto;
+}
+
+.logout-btn {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+
+    background: rgba(255, 255, 255, 0.10);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    padding: 10px 16px;
+    border-radius: 12px;
+    cursor: pointer;
+
+    color: #fff;
+    font-weight: bold;
+    font-size: 0.9em;
+
+    backdrop-filter: blur(10px);
+    transition: 0.25s ease;
+
+    z-index: 9999;
+}
+
+.logout-btn:hover {
+    background: rgba(255, 80, 80, 0.25);
+    border-color: rgba(255, 80, 80, 0.5);
+    box-shadow: 0 0 10px rgba(255, 50, 50, 0.4);
+}
+
+/* ===== ENCABEZADO FIJO ===== */
+.main-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+
+    background: rgba(255, 255, 255, 0.08);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+    backdrop-filter: blur(15px);
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 2px 0px;
+    z-index: 20;
+}
+
+.logo {
+    color: #00c3ff;
+    font-weight: 600;
+    font-size: 1.4em;
+    margin: 0;
+}
+
+.header-nav a {
+    color: #eee;
+    margin: 0 12px;
+    text-decoration: none;
+    font-weight: 500;
+    transition: 0.2s;
+}
+
+.header-nav a:hover {
+    color: #00c3ff;
+}
+
+/* Botón de cerrar sesión en header */
+.logout-btn-header {
+    padding: 8px 14px;
+    background: rgba(255, 50, 50, 0.25);
+    border: 1px solid rgba(255, 80, 80, 0.4);
+    border-radius: 10px;
+
+    text-decoration: none;
+    color: white;
+    font-weight: bold;
+
+    backdrop-filter: blur(6px);
+    transition: 0.25s;
+}
+
+.logout-btn-header:hover {
+    background: rgba(255, 50, 50, 0.40);
+    box-shadow: 0 0 12px rgba(255, 50, 50, 0.5);
+}
+
+
+/* ===== CONTENIDO PRINCIPAL ===== */
+.dashboard {
+    padding-top: 120px; /* Espacio por header fijo */
+    padding-bottom: 70px;
+    width: 100%;
+    max-width: 1200px;
+
+    margin: 0 auto;
+    text-align: center;
+}
+
+.dashboard-title {
+    font-size: 2.2em;
+    color: #00c3ff;
+    margin-bottom: 40px;
+    text-shadow: 0 0 12px rgba(0, 195, 255, 0.3);
+}
+
+
+/* ===== CARDS ===== */
+.cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 30px;
+    padding: 0 20px;
+}
+
+.card {
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    backdrop-filter: blur(14px);
+    padding: 25px;
+    border-radius: 18px;
+
+    text-decoration: none;
+    color: white;
+
+    transition: transform 0.25s, box-shadow 0.3s;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 0 25px rgba(0, 195, 255, 0.4);
+}
+
+
+/* ===== PIE DE PÁGINA ===== */
+.main-footer {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.06);
+    border-top: 1px solid rgba(255, 255, 255, 0.12);
+    backdrop-filter: blur(12px);
+
+    text-align: center;
+    padding: 0px 0;
+
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    color: #ddd;
+    font-size: 0.9em;
+}
