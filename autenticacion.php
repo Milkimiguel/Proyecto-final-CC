@@ -40,7 +40,7 @@
     
             if (isset($_POST["recordar"])){
                 $token = bin2hex(random_bytes(16));
-                $query = "update usuarios set token = ? where usario = ?";
+                $query = "update usuarios set token = ? where usuario = ?";
     
                 $conexion->execute_query($query, [$token, $usuario]);
     
