@@ -1,9 +1,5 @@
 <?php
-session_start();
-if (!isset($_SESSION["log"])) {
-    header("Location: form.php");
-    exit();
-}
+require 'seguridad_sesion.php';
 
 $conexion = mysqli_connect("localhost", "root", "", "clouddb");
 $conexion->set_charset("utf8mb4"); // Importante para tildes y ñ
@@ -89,9 +85,28 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['btn_comentar'])) {
                         <span class='game-tag hours'>
                             <i class='fas fa-clock'></i> <?php echo htmlspecialchars($juego['horas_juego']); ?> h
                         </span>
-                        <span class='game-tag genre'>
-                            <i class='fas fa-tag'></i> <?php echo htmlspecialchars($juego['genero']); ?>
-                        </span>
+
+                        <?php 
+                        // --- LÓGICA PARA SEPARAR GÉNEROS ---
+                        
+                        // 1. Convertimos la string "Accion, RPG" en un array ["Accion", " RPG"]
+                        $lista_generos = explode(',', $juego['genero']);
+
+                        // 2. Recorremos cada género por separado
+                        foreach ($lista_generos as $gen): 
+                            // Limpiamos espacios en blanco al inicio/final (ej: " RPG" -> "RPG")
+                            $gen_limpio = trim($gen);
+                            
+                            // Solo imprimimos si no está vacío
+                            if (!empty($gen_limpio)):
+                        ?>
+                            <span class='game-tag genre'>
+                                <i class='fas fa-tag'></i> <?php echo htmlspecialchars($gen_limpio); ?>
+                            </span>
+                        <?php 
+                            endif;
+                        endforeach; 
+                        ?>
                     </div>
                     
                     <p class='game-description'><?php echo nl2br(htmlspecialchars($juego['descripcion'])); ?></p>

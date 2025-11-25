@@ -1,0 +1,22 @@
+# Límite de subida de archivos (2 Megabytes)
+php_value upload_max_filesize 2M
+
+# Límite total del formulario (debe ser un poco más grande que el archivo)
+php_value post_max_size 3M
+
+# Tiempo máximo para subir el archivo (evita que se queden colgados consumiendo RAM)
+php_value max_execution_time 30
+php_value max_input_time 30
+
+# BLOQUEO DE SEGURIDAD PARA ARCHIVOS INTERNOS
+# Esto prohíbe que alguien escriba "localhost/seguridad_sesion.php" en el navegador.
+# El servidor responderá con Error 403 Forbidden inmediatamente.
+<Files "seguridad_sesion.php">
+    <IfModule mod_authz_core.c>
+        Require all denied
+    </IfModule>
+    <IfModule !mod_authz_core.c>
+        Order allow,deny
+        Deny from all
+    </IfModule>
+</Files>

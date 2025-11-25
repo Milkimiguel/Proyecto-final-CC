@@ -1,9 +1,5 @@
 <?php
-    session_start();
-    if (!isset($_SESSION["log"])) {
-        header("Location: form.php");
-        exit();
-    }
+    require 'seguridad_sesion.php';
 ?>
 
 <!DOCTYPE html>
@@ -36,7 +32,7 @@
 </header>
 
 <div class="container">
-    <div class="glass-form" style="width: 600px; text-align:left;">
+    <div class="glass-form" style="margin-top:10%; width: 600px; text-align:left;">
         <h2>Descargas Disponibles</h2>
 
         <table style="width:100%; border-collapse:collapse;">

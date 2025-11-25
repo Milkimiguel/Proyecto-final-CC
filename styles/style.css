@@ -44,18 +44,18 @@ body {
   content: "";
   position: fixed;
   top: 0;
-  left: 0;
+  left: -300px;
   width: 200%;
   height: 200%;
   background: repeating-linear-gradient(
     45deg,
-    rgba(255, 255, 255, 0.05) 0,
-    rgba(255, 255, 255, 0.05) 1px,
+    rgba(44, 111, 255, 0.158) 0,
+    rgba(0, 0, 0, 0.05) 1px,
     transparent 1px,
     transparent 50px
   );
-  animation: moveLines 20s linear infinite;
-  transform: rotate(15deg);
+  animation: moveLines 5s alternate infinite ease-in-out;
+  transform: rotate(90deg);
   z-index: 0;
 }
 
@@ -435,27 +435,64 @@ button:hover {
 
 /* Message Styles */
 .message {
-  padding: 15px;
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%) translateY(-20px);
+  opacity: 0;
+
+  padding: 15px 22px;
   border-radius: 12px;
-  margin-bottom: 20px;
   text-align: center;
   font-weight: 600;
   backdrop-filter: blur(10px);
+
+  z-index: 9999;
+  pointer-events: none;
+
+  animation: fadeSlideIn 0.6s ease forwards,
+             fadeSlideOut 0.6s ease 3.8s forwards; /* desaparece después de 3.8s */
 }
 
+/* Success */
 .message.success {
   color: #00ff88;
   background: rgba(0, 255, 136, 0.1);
   border: 1px solid rgba(0, 255, 136, 0.3);
-  box-shadow: 0 0 15px rgba(0, 255, 136, 0.2);
+  box-shadow: 0 0 15px rgba(0, 255, 136, 0.25);
 }
 
+/* Error */
 .message.error {
   color: #ff6b6b;
   background: rgba(255, 107, 107, 0.1);
   border: 1px solid rgba(255, 107, 107, 0.3);
-  box-shadow: 0 0 15px rgba(255, 107, 107, 0.2);
+  box-shadow: 0 0 15px rgba(255, 107, 107, 0.25);
 }
+
+/* Animations */
+@keyframes fadeSlideIn {
+  0% {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-30px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+@keyframes fadeSlideOut {
+  0% {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-30px);
+  }
+}
+
 
 /* Form Enhancements */
 .form-note {

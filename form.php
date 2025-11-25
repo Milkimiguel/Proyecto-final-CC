@@ -1,5 +1,4 @@
 <?php
-  session_start();
   $conexion = mysqli_connect("localhost","root","","clouddb");
   $query = "select usuario, token from usuarios where usuario = ?;";
   
@@ -40,15 +39,15 @@
 
   <?php // Errores atrapados de redirecciones
     if (isset($_GET['error']) && $_GET['error'] == 1): 
-    echo '<div class="error-message" id="errorBox"> Usuario o contraseña incorrectos </div>';
+    echo '<div class="message error" id="errorBox"> Usuario o contraseña incorrectos </div>';
     endif; 
     
     if (isset($_GET['error']) && $_GET['error'] == 2): 
-    echo '<div class="error-message" id="errorBox"> Error usando las cookies </div>';
+    echo '<div class="message error" id="errorBox"> Error sesión expirada u obsoleta </div>';
     endif;
 
     if (isset($_GET['error']) && $_GET['error'] == 3): 
-    echo '<div class="error-message" id="errorBox"> Qué haces intentando entrar ahí sin permiso? </div>';
+    echo '<div class="message error" id="errorBox"> Qué haces intentando entrar ahí sin permiso? </div>';
     endif;
   ?>
 
@@ -80,19 +79,5 @@
       <button type="submit">Entrar</button>
     </form>
   </div>
-  <script>
-    // Animación del mensaje de error
-    const errorBox = document.getElementById('errorBox');
-    if (errorBox) {
-      setTimeout(() => {
-        errorBox.classList.add('show');
-      }, 100);
-
-      setTimeout(() => {
-        errorBox.classList.remove('show');
-      }, 3500);
-    }
-  </script>
-
 </body>
 </html>
