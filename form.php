@@ -1,26 +1,27 @@
 <?php
+// Verificar si viene de un logout para evitar redirección
+$esLogout = isset($_GET['logout']) && $_GET['logout'] == 'true';
+
+if(!$esLogout && (isset($_COOKIE["usuario"]) && isset($_COOKIE["token"]))){
   $conexion = mysqli_connect("localhost","root","","clouddb");
   $query = "select usuario, token from usuarios where usuario = ?;";
   
-  if((isset($_COOKIE["usuario"])) && (isset($_COOKIE["token"]))){
-    $resultadoquery = $conexion->execute_query($query, [$_COOKIE["usuario"]]);
-    $registro = mysqli_fetch_array($resultadoquery);
+  $resultadoquery = $conexion->execute_query($query, [$_COOKIE["usuario"]]);
+  $registro = mysqli_fetch_array($resultadoquery);
 
+  if($registro){
     $usuarioreal = $registro["usuario"];
     $tokenreal = $registro["token"];
     if (($_COOKIE["usuario"] == $usuarioreal) && ($_COOKIE["token"] == $tokenreal)) {
         header("Location: blog_inicio.php");
         exit();
     }
-    else{
-      // Eliminar cookies corruptas o inválidas
-      setcookie("usuario", "", time() - 3600, "/");
-      setcookie("token", "", time() - 3600, "/");
-      
-      header("Location: form.php?error=2");
-      exit();
-    }
   }
+  
+  // Si llegamos aquí, las cookies son inválidas
+  setcookie("usuario", "", time() - 3600, "/");
+  setcookie("token", "", time() - 3600, "/");
+}
 ?>
 
 <html lang="es">
@@ -48,6 +49,11 @@
 
     if (isset($_GET['error']) && $_GET['error'] == 3): 
     echo '<div class="message error" id="errorBox"> Qué haces intentando entrar ahí sin permiso? </div>';
+    endif;
+
+    // Mensaje de logout exitoso
+    if (isset($_GET['logout']) && $_GET['logout'] == 'true'): 
+    echo '<div class="message success" id="successBox"> Sesión cerrada correctamente </div>';
     endif;
   ?>
 
