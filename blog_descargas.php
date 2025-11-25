@@ -37,16 +37,15 @@
 
         <table style="width:100%; border-collapse:collapse;">
             <tr style="background: rgba(255,255,255,0.15);">
-                <th style="padding:10px;">Juego</th>
+                <th style="padding:10px;">Documentos</th>
                 <th style="padding:10px;">Descargar</th>
             </tr>
 
             <?php
-            // Simulación de elementos descargables
             $archivos = [
-                ["nombre" => "Aventura Cósmica", "file" => "cosmica.zip"],
-                ["nombre" => "Rally Turbo", "file" => "rally.zip"],
-                ["nombre" => "Dungeon Quest", "file" => "dungeon.zip"]
+                ["nombre" => "Códigos PHP", "file" => "Codigos_PHP.zip"],
+                ["nombre" => "Ensayos AWS", "file" => "Ensayos_AWSEducate.zip"],
+                ["nombre" => "Ensayo Oracle", "file" => "Ensayo_Oracle_MyLearn.zip"]
             ];
 
             foreach ($archivos as $a) {
