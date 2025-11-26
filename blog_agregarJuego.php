@@ -187,7 +187,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <label for="descripcion">Descripción</label>
             <textarea id="descripcion" name="descripcion" 
                       required 
-                      placeholder="Sin spoilers..." 
+                      placeholder="Sin spoilers..."
+                      oninput="validarTitulo(this)"
+                      pattern="[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ\s\-\:\!\.\,]+"
                       maxlength="1000"><?php echo isset($descripcion) ? htmlspecialchars($descripcion) : ''; ?></textarea>
             <small>Máximo 1000 caracteres.</small>
         </div>
