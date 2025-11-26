@@ -8,7 +8,7 @@
             $conexion = new mysqli("localhost","root","","clouddb");
             $conexion->set_charset("utf8mb4");
 
-            $query = "SELECT usuario, contraseña, rol FROM usuarios WHERE usuario = ?";
+            $query = "SELECT usuario, contraseña FROM usuarios WHERE usuario = ?";
             
             $usuario = trim($_POST['usuario']);
             $password = trim($_POST['password']);
@@ -35,7 +35,7 @@
                 session_regenerate_id(true); // Seguridad anti-fixation
                 $_SESSION["log"] = true;
                 $_SESSION["user"] = $usuario;
-                $_SESSION["rol"] = $registro['rol'];
+                
                 // NUEVO: Guardamos la hora exacta del login
                 $_SESSION["ultimo_acceso"] = time(); 
 

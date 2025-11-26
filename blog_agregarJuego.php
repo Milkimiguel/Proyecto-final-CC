@@ -1,24 +1,6 @@
 <?php
 require 'seguridad_sesion.php';
 
-// --- FUNCIONES DE ROLES INTEGRADAS ---
-function esAdministrador() {
-    return isset($_SESSION['rol']) && $_SESSION['rol'] === 'admin';
-}
-
-function obtenerBadgeRol($autor) {
-    // Solo mostrar badge si tenemos información del autor en sesión
-    if (isset($_SESSION['user']) && $_SESSION['user'] === $autor) {
-        if (esAdministrador()) {
-            return '<span class="admin-badge">👑 Admin</span>';
-        } else {
-            return '<span class="user-badge">👤 Usuario</span>';
-        }
-    }
-    return '';
-}
-// --- FIN FUNCIONES DE ROLES ---
-
 $autor_actual = isset($_SESSION['user']) ? $_SESSION['user'] : 'Anónimo';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -31,17 +13,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // 1. LIMPIEZA Y VALIDACIÓN (BACKEND)
         
         // --- A. TÍTULO ---
+        // strip_tags quita HTML. trim quita espacios.
         $titulo = trim(strip_tags($_POST['titulo']));
+        // Regex: Letras, números, tildes, espacios y signos típicos de títulos (: - ! . ,)
         if (!preg_match('/^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ\s\-\:\!\.\,]+$/', $titulo)) {
             throw new Exception("El título contiene caracteres inválidos.");
         }
-        if (strlen($titulo) > 100) {
+        if (strlen($titulo) > 100) { // Límite de largo para BD
             throw new Exception("El título es demasiado largo (máx 100 caracteres).");
         }
 
         // --- B. DESCRIPCIÓN ---
+        // Aquí NO usamos regex estricto porque una descripción lleva de todo.
+        // Pero usamos strip_tags para matar cualquier intento de código <script> o HTML.
         $descripcion = trim(strip_tags($_POST['descripcion']));
-        if (strlen($descripcion) > 1000) {
+        if (strlen($descripcion) > 1000) { // Evita ataques de desbordamiento
             throw new Exception("La descripción es demasiado larga (máx 1000 caracteres).");
         }
 
@@ -51,16 +37,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             throw new Exception("Horas de juego inválidas.");
         }
 
-        // --- D. GÉNERO ---
+        // --- D. GÉNERO (Tu validación estricta) ---
         $genero = trim(strip_tags($_POST['genero']));
         if (!preg_match('/^[a-zA-ZñÑáéíóúÁÉÍÓÚ\s,]+$/', $genero)) {
             throw new Exception("El campo género contiene caracteres no permitidos.");
         }
 
-        // --- 2. IMAGEN ---
+        // --- 2. IMAGEN (Tu validación segura) ---
+        // 2. PROCESAMIENTO SEGURO DE IMAGEN
         $imagen_path = "";
         
+        // Verificamos si hubo error al subir (incluyendo si excede el peso del servidor)
         if (!isset($_FILES['imagen']) || $_FILES['imagen']['error'] !== UPLOAD_ERR_OK) {
+            
+            // Detectar específicamente si se pasó del límite de php.ini o .htaccess
             if (isset($_FILES['imagen']) && $_FILES['imagen']['error'] === UPLOAD_ERR_INI_SIZE) {
                 throw new Exception("El archivo excede el límite del servidor (2MB).");
             }
@@ -70,10 +60,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         $file = $_FILES['imagen'];
 
+        // VALIDACIÓN DE PESO (Doble seguridad por lógica)
+        // 2MB = 2097152 bytes
         if ($file['size'] > 2 * 1024 * 1024) {
             throw new Exception("La imagen es muy pesada. Máximo permitido: 2MB.");
         }
 
+        $imagen_path = "";
         if (!isset($_FILES['imagen']) || $_FILES['imagen']['error'] !== UPLOAD_ERR_OK) {
             throw new Exception("Error en la subida o no se seleccionó imagen.");
         }
@@ -121,38 +114,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <title>Agregar Juego Seguro</title>
     <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles\style.css">
-    <style>
-        .admin-badge {
-            background: linear-gradient(45deg, #ff6b6b, #ee5a24);
-            color: white;
-            padding: 4px 10px;
-            border-radius: 15px;
-            font-size: 0.8em;
-            font-weight: bold;
-        }
-        
-        .user-badge {
-            background: linear-gradient(45deg, #74b9ff, #0984e3);
-            color: white;
-            padding: 4px 10px;
-            border-radius: 15px;
-            font-size: 0.8em;
-        }
-        
-        .user-info {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-    </style>
 </head>
 <body>
 
 <div class="background"><div class="lines"></div></div>
 
-<!-- ENCABEZADO CON INFO DE USUARIO -->
+<!-- ===== ENCABEZADO ===== -->
 <header class="main-header">
-    <h2 class="logo">Agregar Juego</h2>
+    <h2 class="logo">Blog Gamer</h2>
 
     <nav class="header-nav">
         <a href="blog_juegos.php">Juegos</a>
@@ -160,15 +129,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <a href="blog_descargas.php">Descargas</a>
     </nav>
 
-    <div class="user-info">
-        <span><?php echo htmlspecialchars($_SESSION['user']); ?></span>
-        <?php if (esAdministrador()): ?>
-            <span class="admin-badge">👑 Admin</span>
-        <?php else: ?>
-            <span class="user-badge">👤 Usuario</span>
-        <?php endif; ?>
-        <a href="cerrarsesion.php" class="logout-btn-header">Cerrar Sesión</a>
-    </div>
+    <a href="cerrarsesion.php" class="logout-btn-header">Cerrar Sesión</a>
 </header>
 
 <div class="container">
