@@ -22,7 +22,7 @@
 
 <!-- ===== ENCABEZADO ===== -->
 <header class="main-header">
-    <h2 class="logo">Blog Gamer</h2>
+    <a href="blog_inicio.php" style="text-decoration: none"><h2 class="logo">Blog Gamer</h2></a>
 
     <nav class="header-nav">
         <a href="blog_juegos.php">Juegos</a>

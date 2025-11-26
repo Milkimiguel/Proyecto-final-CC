@@ -3,7 +3,7 @@ session_start();
 
 // 1. Verificar si está logueado
 if (!isset($_SESSION["log"]) || $_SESSION["log"] !== true) {
-    header("Location: form.php");
+    header("Location: index.php");
     exit();
 }
 
@@ -25,7 +25,7 @@ if (isset($_SESSION["ultimo_acceso"])) {
             setcookie("token", "", time()-1000, "/");
         }
 
-        header("Location: form.php?error=2"); // Error 2: Sesión expirada
+        header("Location: index.php?error=2"); // Error 2: Sesión expirada
         exit();
     }
 }

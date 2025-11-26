@@ -39,6 +39,6 @@ if (headers_sent()) {
 }
 
 // 5. Redirigir con parámetro para evitar bucles
-header("Location: form.php?logout=success");
+header("Location: index.php?logout=success");
 exit();
 ?>

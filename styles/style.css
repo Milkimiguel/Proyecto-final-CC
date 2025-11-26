@@ -6,8 +6,8 @@ body {
   color: #fff;
   min-height: 100vh;
   overflow-y: auto;
-  display: flex;
-  align-items: flex-start;
+  display: block;
+  align-items: row;
   justify-content: center;
   padding: 20px 0;
 }
@@ -75,6 +75,7 @@ body {
   max-width: 1200px;
   min-height: 100vh;
   gap: 20px;
+  margin-top: 80px;
 }
 
 /* Título principal */
@@ -768,12 +769,13 @@ button:hover {
 }
 
 .user-badge {
-    background: linear-gradient(45deg, #74b9ff, #0984e3);
+    background: linear-gradient(45deg, #4b6cb7, #182848);
     color: white;
     padding: 2px 8px;
     border-radius: 12px;
     font-size: 0.7em;
     margin-left: 5px;
+    font-weight: bold;
 }
 
 .btn-eliminar {
@@ -939,3 +941,4 @@ button:hover {
     transform: translateY(-3px); /* Se eleva un poco */
     filter: brightness(1.2);     /* Se ilumina más */
 }
+

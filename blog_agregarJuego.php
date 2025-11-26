@@ -152,21 +152,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <!-- ENCABEZADO CON INFO DE USUARIO -->
 <header class="main-header">
-    <h2 class="logo">Agregar Juego</h2>
-
+    <a href="blog_inicio.php" style="text-decoration: none"><h2 class="logo">Blog Gamer</h2></a>
     <nav class="header-nav">
         <a href="blog_juegos.php">Juegos</a>
         <a href="blog_agregarJuego.php">Agregar</a>
         <a href="blog_descargas.php">Descargas</a>
     </nav>
-
     <div class="user-info">
         <span><?php echo htmlspecialchars($_SESSION['user']); ?></span>
-        <?php if (esAdministrador()): ?>
-            <span class="admin-badge">👑 Admin</span>
-        <?php else: ?>
-            <span class="user-badge">👤 Usuario</span>
-        <?php endif; ?>
+        <?php echo esAdministrador() ? '<span class="admin-badge">👑 Admin</span>' : '<span class="user-badge">👤 Usuario</span>'; ?>
         <a href="cerrarsesion.php" class="logout-btn-header">Cerrar Sesión</a>
     </div>
 </header>

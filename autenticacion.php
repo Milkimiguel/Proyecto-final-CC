@@ -14,13 +14,13 @@
             $password = trim($_POST['password']);
         
             if ($usuario === "" || $password === "") {
-                header("Location: form.php?error=1");
+                header("Location: index.php?error=1");
                 exit();
             }
         
             // Validación regex usuario...
             if (!preg_match('/^[a-zA-Z0-9_]+$/', $usuario)) { 
-                header("Location: form.php?error=1");
+                header("Location: index.php?error=1");
                 exit();
             }
         
@@ -54,15 +54,15 @@
                 header("Location: blog_inicio.php");
                 exit();
             } else {
-                header("Location: form.php?error=1");
+                header("Location: index.php?error=1");
                 exit();
             }
 
         } catch (Exception $e) {
-            header("Location: form.php?error=4");
+            header("Location: index.php?error=4");
             exit();
         }
     } else {
-        header ("location: form.php?error=3");
+        header ("location: index.php?error=3");
     }
 ?>

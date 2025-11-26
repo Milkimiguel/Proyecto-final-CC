@@ -197,7 +197,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['btn_comentar'])) {
 </div>
 
 <header class="main-header">
-    <h2 class="logo">Blog Gamer</h2>
+    <a href="blog_inicio.php" style="text-decoration: none"><h2 class="logo">Blog Gamer</h2></a>
     <nav class="header-nav">
         <a href="blog_juegos.php">Juegos</a>
         <a href="blog_agregarJuego.php">Agregar</a>
@@ -209,6 +209,28 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['btn_comentar'])) {
         <a href="cerrarsesion.php" class="logout-btn-header">Cerrar Sesión</a>
     </div>
 </header>
+
+<style>
+.container {
+    display: block;      
+    max-width: 900px;  
+    margin: auto;       
+    padding: 20px;
+}
+
+.game-container {
+    display: block;      
+    width: 100%;        
+    margin-bottom: 60px; 
+    clear: both;          
+}
+
+
+.glass-form {
+    width: 100%;
+    box-sizing: border-box; 
+}
+</style>
 
 <div class="container">
     <h2>Lista de Juegos</h2>
