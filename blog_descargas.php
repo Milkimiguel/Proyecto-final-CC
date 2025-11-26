@@ -7,10 +7,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Descargas - Blog</title>
-    <!-- Fuente Comfortaa -->
     <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;600&display=swap" rel="stylesheet">
 
-    <!-- Enlace al CSS -->
     <link rel="stylesheet" href="styles\style.css">
 </head>
 <body>
@@ -18,9 +16,8 @@
 <div class="background">
     <div class="lines"></div>
 </div>
-<!-- ===== ENCABEZADO ===== -->
 <header class="main-header">
-    <a href="blog_inicio.php" style="text-decoration: none"><a href="blog_inicio.php" style="text-decoration: none"><h2 class="logo">Blog Gamer</h2></a></a>
+    <h2 class="logo">Blog Gamer</h2>
 
     <nav class="header-nav">
         <a href="blog_juegos.php">Juegos</a>
@@ -33,34 +30,49 @@
 
 <div class="container">
     <div class="glass-form" style="margin-top:10%; width: 600px; text-align:left;">
-        <h2>Descargas Disponibles</h2>
+        <h2>Archivos Disponibles</h2>
 
         <table style="width:100%; border-collapse:collapse;">
             <tr style="background: rgba(255,255,255,0.15);">
-                <th style="padding:10px;">Documentos</th>
-                <th style="padding:10px;">Descargar</th>
+                <th style="padding:10px;">Nombre del Archivo</th>
+                <th style="padding:10px;">Acción</th>
             </tr>
 
             <?php
-            $archivos = [
-                ["nombre" => "Códigos PHP", "file" => "Codigos_PHP.zip"],
-                ["nombre" => "Ensayos AWS", "file" => "Ensayos_AWSEducate.zip"],
-                ["nombre" => "Ensayo Oracle", "file" => "Ensayo_Oracle_MyLearn.zip"]
-            ];
+            $rutaCarpeta = 'descargas/';
 
-            foreach ($archivos as $a) {
-                echo "
-                    <tr style='background: rgba(255,255,255,0.08);'>
-                        <td style='padding:10px;'>{$a['nombre']}</td>
-                        <td style='padding:10px;'><a href='descargas/{$a['file']}'><button>Descargar</button></a></td>
-                    </tr>
-                ";
+            if (is_dir($rutaCarpeta)) {
+                // Se escanea la carpeta
+                $archivos = array_diff(scandir($rutaCarpeta), array('.', '..'));
+                //ORDENAMIENTO NATURAL
+                natsort($archivos);
+
+                if (count($archivos) > 0) {
+                    foreach ($archivos as $archivo) {
+                        echo "
+                        <tr style='background: rgba(255,255,255,0.08); border-bottom: 1px solid rgba(255,255,255,0.1);'>
+                            <td style='padding:10px;'>{$archivo}</td>
+                            <td style='padding:10px;'>
+                                <a href='descargas/{$archivo}' download>
+                                    <button style='padding: 5px 15px; font-size: 0.9em;'>Descargar</button>
+                                </a>
+                            </td>
+                        </tr>
+                        ";
+                    }
+                } else {
+                    echo "<tr><td colspan='2' style='padding:10px; text-align:center;'>La carpeta está vacía.</td></tr>";
+                }
+            } else {
+                echo "<tr><td colspan='2' style='padding:10px; text-align:center; color: #ff6b6b;'>Error: No se encuentra la carpeta 'descargas/'.</td></tr>";
             }
             ?>
         </table>
 
         <br>
-        <a href="blog_inicio.php"><button>Volver</button></a>
+        <div style="text-align: center;">
+            <a href="blog_inicio.php"><button>Volver</button></a>
+        </div>
     </div>
 </div>
 
