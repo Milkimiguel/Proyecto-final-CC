@@ -81,8 +81,10 @@ if(!$esLogout && (isset($_COOKIE["usuario"]) && isset($_COOKIE["token"]))){
           Mantener sesión iniciada
         </label>
       </div>
-
-      <button type="submit">Entrar</button>
+    
+      <div style="display: flex; justify-content: flex-end;">
+        <button type="submit">Entrar</button>
+      </div>
     </form>
   </div>
 </body>
