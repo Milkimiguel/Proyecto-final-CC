@@ -4,7 +4,7 @@ session_start();
 // 1. Limpiar el token de la base de datos para invalidar la sesión "recordada"
 if (isset($_SESSION['user'])) {
     try {
-        $conexion = mysqli_connect("localhost","root","","clouddb");
+        $conexion = mysqli_connect("localhost","root","CacluloConNumeros08!","clouddb");
         $query = "UPDATE usuarios SET token = NULL WHERE usuario = ?";
         $conexion->execute_query($query, [$_SESSION['user']]);
         mysqli_close($conexion);

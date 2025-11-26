@@ -31,7 +31,7 @@ function obtenerBadgeRol($autor) {
     return '';
 }
 
-$conexion = mysqli_connect("localhost", "root", "", "clouddb");
+$conexion = mysqli_connect("localhost", "root", "CacluloConNumeros08!", "clouddb");
 $conexion->set_charset("utf8mb4"); 
 
 

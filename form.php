@@ -3,7 +3,7 @@
 $esLogout = isset($_GET['logout']) && $_GET['logout'] == 'true';
 
 if(!$esLogout && (isset($_COOKIE["usuario"]) && isset($_COOKIE["token"]))){
-  $conexion = mysqli_connect("localhost","root","","clouddb");
+  $conexion = mysqli_connect("localhost","root","CacluloConNumeros08!","clouddb");
   $query = "select usuario, token from usuarios where usuario = ?;";
   
   $resultadoquery = $conexion->execute_query($query, [$_COOKIE["usuario"]]);

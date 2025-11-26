@@ -25,7 +25,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 
     try {
-        $conexion = new mysqli("localhost", "root", "", "clouddb");
+        $conexion = new mysqli("localhost", "root", "CacluloConNumeros08!", "clouddb");
         $conexion->set_charset("utf8mb4");
 
         // 1. LIMPIEZA Y VALIDACIÓN (BACKEND)

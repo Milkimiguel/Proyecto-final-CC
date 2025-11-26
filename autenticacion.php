@@ -5,7 +5,7 @@
 
     if (isset($_POST['usuario'])) {   
         try {
-            $conexion = new mysqli("localhost","root","","clouddb");
+            $conexion = new mysqli("localhost","root","CacluloConNumeros08!","clouddb");
             $conexion->set_charset("utf8mb4");
 
             $query = "SELECT usuario, contraseña, rol FROM usuarios WHERE usuario = ?";
