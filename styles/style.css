@@ -756,3 +756,186 @@ button:hover {
     color: #ddd;
     font-size: 0.9em;
 }
+
+.admin-badge {
+    background: linear-gradient(45deg, #ff6b6b, #ee5a24);
+    color: white;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 0.7em;
+    margin-left: 5px;
+    font-weight: bold;
+}
+
+.user-badge {
+    background: linear-gradient(45deg, #74b9ff, #0984e3);
+    color: white;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 0.7em;
+    margin-left: 5px;
+}
+
+.btn-eliminar {
+    background: linear-gradient(45deg, #ff7675, #d63031);
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.8em;
+    margin-left: 10px;
+}
+
+.btn-eliminar:hover {
+    background: linear-gradient(45deg, #d63031, #c23616);
+}
+
+.comment-actions {
+    margin-top: 5px;
+    text-align: right;
+}
+
+.game-actions {
+    text-align: right;
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px solid rgba(255,255,255,0.1);
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* --- ESTILOS DE BOTONES DE ACCIÓN (Editar/Eliminar) --- */
+
+/* Contenedor de acciones (Botones) */
+.game-actions {
+    margin-top: 15px;
+    /* Separador visual del contenido de arriba */
+    border-top: 1px solid rgba(255, 255, 255, 0.2); 
+    padding-top: 10px;
+    display: flex; /* Para alinear los botones en la misma línea */
+    gap: 10px; /* Espacio entre los botones */
+    justify-content: flex-end; /* Alinea los botones a la derecha */
+}
+
+/* Botón de Editar */
+.btn-editar {
+    background-color: #3498db; /* Azul */
+    color: white;
+    padding: 8px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.9em;
+    font-weight: 600;
+    text-decoration: none; /* Es un <a> tag */
+    display: inline-flex;
+    align-items: center;
+    transition: background-color 0.2s;
+}
+
+.btn-editar i {
+    margin-right: 5px;
+}
+
+.btn-editar:hover {
+    background-color: #2980b9;
+}
+
+/* Botón de Eliminar (Asegúrate de que tenga un buen estilo) */
+.btn-eliminar {
+    background-color: #e74c3c; /* Rojo */
+    color: white;
+    padding: 8px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.9em;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    transition: background-color 0.2s;
+}
+
+.btn-eliminar:hover {
+    background-color: #c0392b;
+}
+
+/* Botones genéricos (para Guardar/Cancelar en el formulario de edición) */
+.btn-primary {
+    background-color: #27ae60; /* Verde */
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.btn-secondary {
+    background-color: #7f8c8d; /* Gris */
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+/* --- ESTILOS DE LOS BOTONES INFERIORES (Agregar/Volver) --- */
+
+.flex-container {
+    display: flex;           /* Activa el modo flexible */
+    justify-content: center; /* Centra los botones horizontalmente */
+    align-items: center;     /* Alinea verticalmente */
+    gap: 20px;               /* Espacio entre los botones */
+    margin-top: 40px;        /* Separación de la lista de juegos */
+    margin-bottom: 50px;     /* Espacio al final de la página para que no pegue abajo */
+    flex-wrap: wrap;         /* Si la pantalla es muy chica, pone uno debajo del otro */
+}
+
+/* Contenedores individuales (por si acaso) */
+.button-container {
+    display: block;
+}
+
+/* Estilo base para ambos botones */
+.btn-primary, .btn-secondary {
+    padding: 12px 30px;      /* Más grandes y clicables */
+    border-radius: 50px;     /* Bordes completamente redondos */
+    font-weight: 600;        /* Letra negrita */
+    font-size: 1rem;
+    text-decoration: none !important; /* Forza quitar subrayado */
+    display: inline-block;
+    transition: all 0.3s ease; /* Suaviza la animación */
+    text-align: center;
+    border: none;
+    cursor: pointer;
+}
+
+/* Botón Agregar (El principal) */
+.btn-primary {
+    background: linear-gradient(45deg, #00d2ff, #3a7bd5); /* Degradado azul gamer */
+    color: white;
+    box-shadow: 0 4px 15px rgba(0, 210, 255, 0.4); /* Brillo neón */
+}
+
+/* Botón Volver (El secundario) */
+.btn-secondary {
+    background: rgba(255, 255, 255, 0.1); /* Transparente (Glass) */
+    color: #ddd;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+/* Efecto al pasar el mouse (Hover) */
+.btn-primary:hover, .btn-secondary:hover {
+    transform: translateY(-3px); /* Se eleva un poco */
+    filter: brightness(1.2);     /* Se ilumina más */
+}
